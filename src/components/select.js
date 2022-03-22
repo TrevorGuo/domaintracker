@@ -1,12 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
+import { makeStyles } from '@mui/styles';
+import { Modal } from '@mui/material';
+
+const useStyles = makeStyles({
+    list: {
+        borderRadius: '15px',
+        margin: '3vh 3vw',
+        backgroundColor: '#408ec6',
+    },
+    listItem: {
+        borderRadius: '25px',
+        padding: '5px',
+    },
+    hoverStrike: {
+        '&:hover': {
+            textDecoration: 'line-through',
+            cursor: 'pointer',
+        }
+    },
+    modalBox: {
+        display: 'block',
+        position: 'absolute',
+        textAlign: 'center',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+    },
+    modalDialog: {
+        overflowY: 'initial',
+    },
+    modalContent: {
+        height: '70vh',
+        overflowY: 'auto',
+    }
+});
 
 export default function Select({data, checked, setChecked}) {
+    const styles = useStyles();
+    const [open, setOpen] = useState(false);
+
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -19,35 +57,80 @@ export default function Select({data, checked, setChecked}) {
     
         setChecked(newChecked);
     };
-    
-    return (
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            <ListItem>
-                {data[0].name == 'Albedo' ? 'Characters' : 'Weapons'}
-            </ListItem>
-            {data.map((item, index) => {
-            const labelId = `checkbox-list-label-${index}`;
+    const handleOpen = () => {
+        setOpen(true);
+    }
+    const handleClose = () => {
+        setOpen(false);
+    }
 
-            return (
-                <ListItem
-                key={item.name}
-                disablePadding
-                >
-                <ListItemButton role={undefined} onClick={handleToggle(index)} dense>
-                    <ListItemIcon>
-                    <Checkbox
-                        edge="start"
-                        checked={checked.indexOf(index) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                    </ListItemIcon>
-                    <ListItemText id={labelId} primary={item.name} />
-                </ListItemButton>
-                </ListItem>
-            );
+    const handleClear = () => {
+        setChecked([]);
+    };
+    
+    return(
+        <List className={styles.list}>
+            <ListItemButton 
+            onClick={handleOpen}
+            className={styles.listItem}
+            >
+                Add {data[0].name === 'Albedo' ? 'Characters' : 'Weapons'}
+            </ListItemButton>
+            <Modal
+                open={open}
+                onClose={handleClose}
+            >
+                <List className={`${styles.list} ${styles.modalContent}`}>
+                    {data.map((item, index) => {
+                    const labelId = `checkbox-list-label-${index}`;
+
+                    return (
+                        <ListItem
+                        key={index}
+                        disablePadding
+                        >
+                            <ListItemButton 
+                            role={undefined} 
+                            onClick={handleToggle(index)} 
+                            className={styles.listItem}
+                            dense
+                            >
+                                <ListItemIcon>
+                                    <Checkbox
+                                    edge='left'
+                                    checked={checked.indexOf(index) !== -1}
+                                    tabIndex={-1}
+                                    disableRipple
+                                    inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText id={labelId} primary={item.name} />
+                            </ListItemButton>
+                        </ListItem>
+                    );
+                    })}
+                </List>
+            </Modal>
+            {checked.length > 0 && 
+            <ListItemButton 
+            onClick={handleClear}
+            className={styles.listItem}
+            >
+                Reset
+            </ListItemButton>
+            }
+            {checked.map((index) => {
+                return(
+                    <ListItem
+                    key={index}
+                    dense
+                    className={`${styles.listItem} ${styles.hoverStrike}`}
+                    onClick={handleToggle(index)}
+                    >
+                        {data[index].name}
+                    </ListItem>
+                )
             })}
         </List>
-    );
+    )
 }

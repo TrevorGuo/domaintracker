@@ -13,9 +13,9 @@ function App() {
   return (
     <div className='container'>
       <DomainWeek characters={characterData.characters} selectedCharacters={selectedCharacters} weapons={weaponData.weapons} selectedWeapons={selectedWeapons}/>
-      <div className='list-container'>
-        <Select data={characterData.characters} checked={selectedCharacters} setChecked={setCharacters}/>
-        <Select data={weaponData.weapons} checked={selectedWeapons} setChecked={setWeapons}/>
+      <div className='flex'>
+          <Select data={characterData.characters} checked={selectedCharacters} setChecked={setCharacters}/>
+          <Select data={weaponData.weapons} checked={selectedWeapons} setChecked={setWeapons}/>
       </div>
     </div>
   );

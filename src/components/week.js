@@ -47,6 +47,8 @@ export default function DomainWeek({characters, selectedCharacters, weapons, sel
                 case 'Light':
                     newInazuma[2] = [...newInazuma[2], characters[element].name];
                     break;
+                default:
+                    break;
             }
         });
         selectedWeapons.forEach(element => {
@@ -77,6 +79,8 @@ export default function DomainWeek({characters, selectedCharacters, weapons, sel
                     break;
                 case 'Mask of the Wicked Lieutenant':
                     newInazuma[2] = [...newInazuma[2], weapons[element].name];
+                    break;
+                default:
                     break;
             }
         });

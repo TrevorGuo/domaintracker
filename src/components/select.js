@@ -12,6 +12,7 @@ const useStyles = makeStyles({
     list: {
         borderRadius: '15px',
         margin: '3vh 3vw',
+        padding: '2vh 2vw',
         backgroundColor: '#408ec6',
     },
     listItem: {
@@ -102,6 +103,11 @@ export default function Select({data, checked, setChecked}) {
                                     tabIndex={-1}
                                     disableRipple
                                     inputProps={{ 'aria-labelledby': labelId }}
+                                    sx={{
+                                        '&.Mui-checked': {
+                                            color: 'orange',
+                                        },
+                                    }}
                                     />
                                 </ListItemIcon>
                                 <ListItemText id={labelId} primary={item.name} />

@@ -7,12 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { format } from "fecha";
 
 
 export default function DomainWeek({characters, selectedCharacters, weapons, selectedWeapons}) {
     const [mondstadt, setMondstadt] = useState([[],[],[]]);
     const [liyue, setLiyue] = useState([[],[],[]]);
     const [inazuma, setInazuma] = useState([[],[],[]]);
+    const [currDay, setDay] = useState('');
 
     useEffect(() => {
         const newMondstadt = [[],[],[]];
@@ -88,7 +90,7 @@ export default function DomainWeek({characters, selectedCharacters, weapons, sel
         setMondstadt(newMondstadt);
         setLiyue(newLiyue);
         setInazuma(newInazuma);
-
+        setDay(format(new Date(), 'dddd'));
     }, [selectedCharacters, selectedWeapons])
 
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -100,7 +102,9 @@ export default function DomainWeek({characters, selectedCharacters, weapons, sel
                     <TableRow>
                         <TableCell></TableCell>
                         {days.map(day => {
-                            return (<TableCell>{day}</TableCell>)
+                            return day === currDay ? 
+                                  (<TableCell><b>{day}</b></TableCell>)
+                                : (<TableCell>{day}</TableCell>);
                         })}
                     </TableRow>
                 </TableHead>

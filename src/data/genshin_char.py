@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
+print("Starting webscraper")
+
 wiki_url = 'https://genshin-impact.fandom.com'
 character_site = '/wiki/Characters/List'
 weapon_site = '/wiki/Weapons/List'
